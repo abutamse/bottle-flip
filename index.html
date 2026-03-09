@@ -220,10 +220,15 @@ const BOTTLE_SKINS=[
   {id:'galaxy',shape:'bottle',  name:'Galaxy',        desc:'Aus den Tiefen des Alls 🌌',       price:550, body:'#220044',neck:'#330055',cap:'#110022',water:'rgba(80,0,120,0.7)',   stroke:'#AA44FF'},
   {id:'rainbow',shape:'bottle', name:'Regenbogen',    desc:'Alle Farben auf einmal 🌈',        price:600, body:'#FF4466',neck:'#FF8844',cap:'#4444CC',water:'rgba(255,100,0,0.4)',  stroke:'#FF44FF'},
   // ── LEGENDÄR (750+) ──
-  {id:'lava',shape:'can',    name:'Lava',          desc:'Heiß wie der Vulkankern 🌋',       price:1500, body:'#FF3300',neck:'#FF5500',cap:'#880000',water:'rgba(255,50,0,0.8)',   stroke:'#FF8844'},
-  {id:'ice',shape:'bottle',     name:'Gefroren',      desc:'Kälter als absoluter Nullpunkt ❄️',price:2000, body:'#AADDFF',neck:'#BBEEFF',cap:'#5599CC',water:'rgba(150,220,255,0.6)',stroke:'#DDEEFF'},
-  {id:'toxic',shape:'energy',   name:'Toxisch',       desc:'Radioaktiv — nicht trinken! ☢️',   price:3000, body:'#00FF44',neck:'#22FF66',cap:'#008822',water:'rgba(0,255,50,0.7)',   stroke:'#66FF99'},
-  {id:'diamond',shape:'round', name:'Diamant',       desc:'Unzerstörbar und unbezahlbar 💎',  price:10000,body:'#AAFFFF',neck:'#CCFFFF',cap:'#55AAAA',water:'rgba(150,255,255,0.4)',stroke:'#FFFFFF'},
+  {id:'lava',shape:'can',    name:'Lava',          desc:'Heiß wie der Vulkankern 🌋',       price:750, body:'#FF3300',neck:'#FF5500',cap:'#880000',water:'rgba(255,50,0,0.8)',   stroke:'#FF8844'},
+  {id:'ice',shape:'bottle',     name:'Gefroren',      desc:'Kälter als absoluter Nullpunkt ❄️',price:800, body:'#AADDFF',neck:'#BBEEFF',cap:'#5599CC',water:'rgba(150,220,255,0.6)',stroke:'#DDEEFF'},
+  {id:'toxic',shape:'energy',   name:'Toxisch',       desc:'Radioaktiv — nicht trinken! ☢️',   price:900, body:'#00FF44',neck:'#22FF66',cap:'#008822',water:'rgba(0,255,50,0.7)',   stroke:'#66FF99'},
+  {id:'diamond',shape:'round', name:'Diamant',       desc:'Unzerstörbar und unbezahlbar 💎',  price:1000,body:'#AAFFFF',neck:'#CCFFFF',cap:'#55AAAA',water:'rgba(150,255,255,0.4)',stroke:'#FFFFFF'},
+  // ── FIGUREN ──
+  {id:'person', shape:'person', name:'Person',    desc:'Ein mutiger Typ springt! 🧍',     price:1500,body:'#FFCC99',neck:'#4488FF',cap:'#222222',water:'#FF8844',stroke:'#FFFFFF'},
+  {id:'opa',    shape:'opa',    name:'Opa',        desc:'Alter Mann mit Stock 👴',          price:2000,body:'#DDBBAA',neck:'#888888',cap:'#FFFFFF',water:'#664422',stroke:'#AAAAAA'},
+  {id:'lion',   shape:'lion',   name:'Löwe',       desc:'Der König springt! 🦁',           price:2500,body:'#DD9933',neck:'#BB7722',cap:'#CC6600',water:'#884400',stroke:'#FFCC44'},
+  {id:'house',  shape:'house',  name:'Haus',       desc:'Ein ganzes Haus flippt! 🏠',      price:5000,body:'#CC4444',neck:'#AA3333',cap:'#885533',water:'#FFEECC',stroke:'#FF8888'},
 ];
 
 function getSkin(id){ return BOTTLE_SKINS.find(s=>s.id===id)||BOTTLE_SKINS[0]; }
@@ -428,6 +433,143 @@ function drawBottleShape(ctx,skin,BW,BH,scale){
     // Etikett
     ctx.fillStyle='rgba(255,255,255,0.15)';ctx.beginPath();ctx.ellipse(0,BH*0.18,BW*0.3,BH*0.15,0,0,Math.PI*2);ctx.fill();
     ctx.fillStyle='rgba(255,255,255,0.2)';ctx.beginPath();ctx.ellipse(-BW*0.18,-BH*0.06,BW*0.08,BH*0.12,Math.PI*0.3,0,Math.PI*2);ctx.fill();
+
+  } else if(s==='person'){
+    // Kopf
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.14,BW*0.28,0,Math.PI*2);ctx.fill();ctx.stroke();
+    // Haare
+    ctx.fillStyle=skin.cap;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.14,BW*0.28,Math.PI,2*Math.PI);ctx.fill();
+    // Gesicht
+    ctx.fillStyle='#222';ctx.beginPath();ctx.arc(-BW*0.1,-BH/2+BH*0.12,1.5*scale,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(BW*0.1,-BH/2+BH*0.12,1.5*scale,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#222';ctx.lineWidth=scale;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.16,BW*0.1,0.1,Math.PI-0.1);ctx.stroke();
+    // Körper (T-Shirt)
+    ctx.fillStyle=skin.neck;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.42,-BH/2+BH*0.28,BW*0.84,BH*0.34,3*scale);ctx.fill();ctx.stroke();
+    // Arme
+    ctx.strokeStyle=skin.body;ctx.lineWidth=3*scale;
+    ctx.beginPath();ctx.moveTo(-BW*0.42,-BH/2+BH*0.3);ctx.lineTo(-BW*0.7,-BH/2+BH*0.5);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(BW*0.42,-BH/2+BH*0.3);ctx.lineTo(BW*0.7,-BH/2+BH*0.5);ctx.stroke();
+    // Hose
+    ctx.fillStyle=skin.water;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.38,-BH/2+BH*0.62,BW*0.76,BH*0.22,2*scale);ctx.fill();ctx.stroke();
+    // Beine
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;
+    ctx.beginPath();ctx.roundRect(-BW*0.36,-BH/2+BH*0.84,BW*0.28,BH*0.18,2*scale);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.roundRect(BW*0.08,-BH/2+BH*0.84,BW*0.28,BH*0.18,2*scale);ctx.fill();ctx.stroke();
+    // Schuhe
+    ctx.fillStyle='#222';
+    ctx.beginPath();ctx.ellipse(-BW*0.22,BH/2-3*scale,BW*0.2,4*scale,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(BW*0.22,BH/2-3*scale,BW*0.2,4*scale,0,0,Math.PI*2);ctx.fill();
+
+  } else if(s==='opa'){
+    // Kopf (weiße Haare)
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.14,BW*0.28,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle=skin.cap; // weiße Haare
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.14,BW*0.28,Math.PI,2*Math.PI);ctx.fill();
+    // Brille
+    ctx.strokeStyle='#555';ctx.lineWidth=scale*0.8;
+    ctx.beginPath();ctx.arc(-BW*0.12,-BH/2+BH*0.12,BW*0.1,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(BW*0.12,-BH/2+BH*0.12,BW*0.1,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-BW*0.22,-BH/2+BH*0.12);ctx.lineTo(-BW*0.3,-BH/2+BH*0.11);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(BW*0.22,-BH/2+BH*0.12);ctx.lineTo(BW*0.3,-BH/2+BH*0.11);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-BW*0.02,-BH/2+BH*0.12);ctx.lineTo(BW*0.02,-BH/2+BH*0.12);ctx.stroke();
+    // Bart
+    ctx.fillStyle='#DDDDDD';
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.19,BW*0.18,0,Math.PI);ctx.fill();
+    // Körper (grauer Pullover)
+    ctx.fillStyle=skin.neck;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.4,-BH/2+BH*0.28,BW*0.8,BH*0.34,3*scale);ctx.fill();ctx.stroke();
+    // Stock
+    ctx.strokeStyle=skin.water;ctx.lineWidth=2.5*scale;
+    ctx.beginPath();ctx.moveTo(BW*0.5,-BH/2+BH*0.35);ctx.lineTo(BW*0.5,BH/2-2*scale);ctx.stroke();
+    ctx.beginPath();ctx.arc(BW*0.5,-BH/2+BH*0.33,3*scale,0,Math.PI*2);ctx.stroke();
+    // Arme
+    ctx.strokeStyle=skin.body;ctx.lineWidth=2.5*scale;
+    ctx.beginPath();ctx.moveTo(-BW*0.4,-BH/2+BH*0.31);ctx.lineTo(-BW*0.65,-BH/2+BH*0.52);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(BW*0.4,-BH/2+BH*0.31);ctx.lineTo(BW*0.48,-BH/2+BH*0.44);ctx.stroke();
+    // Hose braun
+    ctx.fillStyle=skin.water;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.36,-BH/2+BH*0.62,BW*0.72,BH*0.22,2*scale);ctx.fill();ctx.stroke();
+    // Beine + Schuhe
+    ctx.fillStyle=skin.body;ctx.beginPath();ctx.roundRect(-BW*0.34,-BH/2+BH*0.84,BW*0.26,BH*0.17,2*scale);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.roundRect(BW*0.08,-BH/2+BH*0.84,BW*0.26,BH*0.17,2*scale);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#443322';
+    ctx.beginPath();ctx.ellipse(-BW*0.21,BH/2-3*scale,BW*0.18,4*scale,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(BW*0.21,BH/2-3*scale,BW*0.18,4*scale,0,0,Math.PI*2);ctx.fill();
+
+  } else if(s==='lion'){
+    // Mähne (großer Kreis hinten)
+    ctx.fillStyle=skin.water;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.2,BW*0.42,0,Math.PI*2);ctx.fill();ctx.stroke();
+    // Kopf
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;
+    ctx.beginPath();ctx.arc(0,-BH/2+BH*0.19,BW*0.3,0,Math.PI*2);ctx.fill();ctx.stroke();
+    // Schnauze
+    ctx.fillStyle='#FFDDAA';
+    ctx.beginPath();ctx.ellipse(0,-BH/2+BH*0.23,BW*0.18,BH*0.07,0,0,Math.PI*2);ctx.fill();
+    // Nase
+    ctx.fillStyle='#994422';ctx.beginPath();ctx.arc(0,-BH/2+BH*0.19,2.5*scale,0,Math.PI*2);ctx.fill();
+    // Augen
+    ctx.fillStyle='#331100';
+    ctx.beginPath();ctx.arc(-BW*0.12,-BH/2+BH*0.15,2*scale,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(BW*0.12,-BH/2+BH*0.15,2*scale,0,Math.PI*2);ctx.fill();
+    // Ohren
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;
+    ctx.beginPath();ctx.moveTo(-BW*0.28,-BH/2+BH*0.08);ctx.lineTo(-BW*0.38,-BH/2);ctx.lineTo(-BW*0.18,-BH/2+BH*0.06);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.moveTo(BW*0.28,-BH/2+BH*0.08);ctx.lineTo(BW*0.38,-BH/2);ctx.lineTo(BW*0.18,-BH/2+BH*0.06);ctx.closePath();ctx.fill();ctx.stroke();
+    // Körper
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.ellipse(0,-BH/2+BH*0.56,BW*0.44,BH*0.28,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+    // Pfoten vorne
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;
+    ctx.beginPath();ctx.ellipse(-BW*0.38,-BH/2+BH*0.42,BW*0.12,BH*0.1,Math.PI*0.3,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.ellipse(BW*0.38,-BH/2+BH*0.42,BW*0.12,BH*0.1,-Math.PI*0.3,0,Math.PI*2);ctx.fill();ctx.stroke();
+    // Beine
+    ctx.beginPath();ctx.roundRect(-BW*0.36,-BH/2+BH*0.76,BW*0.28,BH*0.2,3*scale);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.roundRect(BW*0.08,-BH/2+BH*0.76,BW*0.28,BH*0.2,3*scale);ctx.fill();ctx.stroke();
+    // Schwanz
+    ctx.strokeStyle=skin.body;ctx.lineWidth=2*scale;
+    ctx.beginPath();ctx.moveTo(BW*0.44,-BH/2+BH*0.52);ctx.bezierCurveTo(BW*0.8,-BH/2+BH*0.4,BW*0.9,-BH/2+BH*0.6,BW*0.6,-BH/2+BH*0.7);ctx.stroke();
+    ctx.fillStyle=skin.water;ctx.beginPath();ctx.arc(BW*0.6,-BH/2+BH*0.71,4*scale,0,Math.PI*2);ctx.fill();
+
+  } else if(s==='house'){
+    // Fundament
+    ctx.fillStyle=skin.water;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.48,-BH/2+BH*0.45,BW*0.96,BH*0.55,2*scale);ctx.fill();ctx.stroke();
+    // Wände
+    ctx.fillStyle=skin.water;
+    ctx.beginPath();ctx.rect(-BW*0.44,-BH/2+BH*0.44,BW*0.88,BH*0.42);ctx.fill();
+    // Fenster links
+    ctx.fillStyle='#AADDFF';ctx.strokeStyle='#FFFFFF';ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.36,-BH/2+BH*0.52,BW*0.26,BH*0.15,1*scale);ctx.fill();ctx.stroke();
+    ctx.strokeStyle='#FFFFFF';ctx.lineWidth=0.5*scale;
+    ctx.beginPath();ctx.moveTo(-BW*0.23,-BH/2+BH*0.52);ctx.lineTo(-BW*0.23,-BH/2+BH*0.67);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-BW*0.36,-BH/2+BH*0.595);ctx.lineTo(-BW*0.1,-BH/2+BH*0.595);ctx.stroke();
+    // Fenster rechts
+    ctx.fillStyle='#AADDFF';ctx.strokeStyle='#FFFFFF';ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(BW*0.1,-BH/2+BH*0.52,BW*0.26,BH*0.15,1*scale);ctx.fill();ctx.stroke();
+    ctx.strokeStyle='#FFFFFF';ctx.lineWidth=0.5*scale;
+    ctx.beginPath();ctx.moveTo(BW*0.23,-BH/2+BH*0.52);ctx.lineTo(BW*0.23,-BH/2+BH*0.67);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(BW*0.1,-BH/2+BH*0.595);ctx.lineTo(BW*0.36,-BH/2+BH*0.595);ctx.stroke();
+    // Tür
+    ctx.fillStyle=skin.cap;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.roundRect(-BW*0.1,-BH/2+BH*0.71,BW*0.2,BH*0.28,2*scale);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#FFDD88';ctx.beginPath();ctx.arc(BW*0.06,-BH/2+BH*0.845,2*scale,0,Math.PI*2);ctx.fill();
+    // Dach (Dreieck)
+    ctx.fillStyle=skin.body;ctx.strokeStyle=skin.stroke;ctx.lineWidth=scale;
+    ctx.beginPath();ctx.moveTo(-BW*0.52,-BH/2+BH*0.46);ctx.lineTo(0,-BH/2);ctx.lineTo(BW*0.52,-BH/2+BH*0.46);ctx.closePath();ctx.fill();ctx.stroke();
+    // Schornstein
+    ctx.fillStyle=skin.neck;ctx.strokeStyle=skin.stroke;
+    ctx.beginPath();ctx.roundRect(BW*0.2,-BH/2-BH*0.08,BW*0.16,BH*0.16,1*scale);ctx.fill();ctx.stroke();
+    // Rauch
+    ctx.fillStyle='rgba(200,200,200,0.5)';
+    ctx.beginPath();ctx.arc(BW*0.28,-BH/2-BH*0.1,4*scale,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(BW*0.22,-BH/2-BH*0.15,3*scale,0,Math.PI*2);ctx.fill();
   }
   ctx.restore();
 }
